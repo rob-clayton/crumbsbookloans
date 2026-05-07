@@ -1,0 +1,28 @@
+### Get all books                                                                                                                                                                           
+GET https://localhost:5001/api/books                                                                                                                                                        
+                                                                                                                                                                                            
+### Create a book                                                                                                                                                                           
+POST https://localhost:5001/api/books                     
+Content-Type: application/json
+                                                                                                                                                                                            
+{
+  "title": "The Dispossessed",                                                                                                                                                              
+  "author": "Ursula K. Le Guin",                          
+  "isbn": "978-0061054884",
+  "publishedDate": "1974-05-01",                                                                                                                                                            
+  "owner": "Alice"                                                                                                                                                                          
+}                                                                                                                                                                                           
+                                                                                                                                                                                            
+### Loan a book                                                                                                                                                                             
+POST https://localhost:5001/api/books/1/loan
+Content-Type: application/json                                                                                                                                                              
+                                                          
+{
+  "borrower": "Bob"
+}
+                                                                                                                                                                                            
+### Return a book
+POST https://localhost:5001/api/books/1/return                                                                                                                                              
+                                                          
+### Delete a book
+DELETE https://localhost:5001/api/books/1
