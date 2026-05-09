@@ -35,11 +35,14 @@ if (app.Environment.IsDevelopment())
 
 // Use HTTPS redirection, serve static files (for React SPA), and set up routing and authorization
 app.UseHttpsRedirection();
+// Note: no static files to serve in development since React dev server handles that, but in production the built React app will be served from wwwroot
 app.UseStaticFiles();
+// Note: no authentication/authorization implemented, but middleware is set up for future use
 app.UseAuthorization();
 app.MapControllers();
 
-// Serve React SPA for any non-API route in production
+// Serve React SPA for any non-API route in production as a fallback
 app.MapFallbackToFile("index.html");
 
+// Run the application blocking until process deaded
 app.Run();

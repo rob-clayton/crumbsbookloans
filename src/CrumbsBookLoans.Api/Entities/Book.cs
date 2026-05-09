@@ -15,7 +15,7 @@ public class Book
     public string Title { get; set; } = "";
     public string? Author { get; set; }
     public string? Isbn { get; set; }
-    public DateOnly PublishedDate { get; set; }
+    public DateOnly? PublishedDate { get; set; }
     public string? Owner { get; set; }
     public LoanStatus LoanStatus { get; set; } = LoanStatus.Available;
     public string? Borrower { get; set; }

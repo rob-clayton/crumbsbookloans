@@ -13,6 +13,13 @@ namespace CrumbsBookLoans.Api.Controllers;
 // - POST loan: sets borrower and status, returns 409 if already borrowed, 404 if not found
 // - POST return: clears borrower and resets status to available, 404 if not found
 
+// Just as a note, I know the spec says to return 404 for trying to loan an already borrowed book, but I think 409 Conflict is more appropriate since the resource exists but is in an invalid state
+// Maybe there's a security concern ... but a conflict feels more correct
+
+// Another note.  All routes are async of course (not sure why it's even an option these days) since there are limited threads, and at least
+// if we hit an await call the main thread can handle another request until the await returns.
+// I know there's a fractional overhead ... but tell me a modern api call that doesn't hit at least one await call?  Even if it's just the database save, or a call to an external service, etc.
+
 [ApiController]
 [Route("api/[controller]")]
 public class BooksController(AppDbContext db) : ControllerBase
@@ -21,7 +28,7 @@ public class BooksController(AppDbContext db) : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var books = await db.Books.ToListAsync();
-        return Ok(books.Select(BookResponse.FromBook));
+        return Ok(books.OrderBy(b => b.Title).Select(BookResponse.FromBook));
     }
 
     [HttpPost]

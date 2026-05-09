@@ -1,122 +1,101 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from "react";
+import { AddBookModal } from "./AddBookModal";
+import { BookTable } from "./BookTable";
+import type { Book } from "./types";
+
+const PAGE_SIZE = 10;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [books, setBooks] = useState<Book[]>([]);
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [showAddBookModal, setShowAddBookModal] = useState(false);
+
+  // Load books from the API and set them in state. Called on initial mount and after adding a book.
+  function loadBooks() {
+    // Note: No real error handling
+    // We are casting to Book[], but this is compile time so actually not checked at runtime. In a real app, we would want to validate this data before using it.
+    fetch("/api/books")
+      .then((res) => res.json())
+      .then((data: unknown) => setBooks(data as Book[]));
+  }
+
+  // Load books on startup
+  useEffect(() => {
+    loadBooks();
+  }, []);
+
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  const totalPages = Math.ceil(filteredBooks.length / PAGE_SIZE);
+  const start = (page - 1) * PAGE_SIZE;
+  const pageBooks = filteredBooks.slice(start, start + PAGE_SIZE);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4 text-center">Library</h1>
 
-      <div className="ticks"></div>
+      <div className="flex justify-between items-center mb-2">
+        <label className="text-sm">
+          Book Search:&nbsp;
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            className="border border-gray-300 rounded px-2 py-1"
+          />
+        </label>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="flex items-center gap-3 text-sm">
+          <button
+            onClick={() => setPage((p) => p - 1)}
+            disabled={page === 1}
+            className="disabled:opacity-40"
+          >
+            ←
+          </button>
+          <span>
+            {start + 1}–{Math.min(start + PAGE_SIZE, filteredBooks.length)}
+          </span>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page === totalPages}
+            className="disabled:opacity-40"
+          >
+            →
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      <BookTable books={pageBooks} />
+
+      {/* Floating add button — per spec, though under the table would feel more natural */}
+      <button
+        onClick={() => setShowAddBookModal(true)}
+        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 text-sm shadow-lg"
+      >
+        Add Book
+      </button>
+
+      {showAddBookModal && (
+        <AddBookModal
+          onAdd={() => {
+            // After adding a book, we want to refresh the list. In a real app, we might want to just add the new book to state instead of reloading everything.
+            // I'm keeping it simple to ensure the refreshed data has the book ordered correctly in the list, and to avoid any potential issues with the new book data not matching what the API returns.
+            // Double note: In a database of this size, indexing etc is actually an overhead ... but obviously not as size increases.
+            loadBooks();
+            setShowAddBookModal(false);
+          }}
+          onClose={() => setShowAddBookModal(false)}
+        />
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
