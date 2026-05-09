@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrumbsBookLoans.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260507085607_UpdateSeedData")]
-    partial class UpdateSeedData
+    [Migration("20260509124602_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,13 +41,22 @@ namespace CrumbsBookLoans.Api.Migrations
                     b.Property<string>("Owner")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("PublishedDate")
+                    b.Property<DateOnly?>("PublishedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.HasIndex("Isbn")
+                        .IsUnique();
+
+                    b.HasIndex("Title");
 
                     b.ToTable("Books");
 

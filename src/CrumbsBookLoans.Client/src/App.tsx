@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AddBookModal } from "./AddBookModal";
 import { BookTable } from "./BookTable";
+import { BorrowModal } from "./BorrowModal";
+import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import type { Book } from "./types";
 
 // Fallback row height until we can measure it from the DOM.
@@ -15,6 +17,8 @@ function App() {
   const [showAddBookModal, setShowAddBookModal] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [borrowingBook, setBorrowingBook] = useState<Book | null>(null);
+  const [deletingBook, setDeletingBook] = useState<Book | null>(null);
   const bookTableContainerRef = useRef<HTMLDivElement>(null);
 
   // Load books from the API and set them in state. Called on initial mount and after adding a book.
@@ -34,6 +38,50 @@ function App() {
           err instanceof Error ? err.message : "Failed to load books",
         );
       });
+  }
+
+  // For borrowing and returning I'm only refreshing to local state, not reloading from the API.
+  // In this case, since it is essentially just a boolean state and a borrower name it seems reasonable.
+  // Again ... just a prototype for now
+  async function handleBorrow(borrower: string) {
+    if (!borrowingBook) return;
+    const res = await fetch(`/api/books/${borrowingBook.id}/loan`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ borrower }),
+    });
+    if (res.ok) {
+      setBooks((prev) =>
+        prev.map((b) =>
+          b.id === borrowingBook.id
+            ? { ...b, loanStatus: "borrowed", borrower }
+            : b,
+        ),
+      );
+      setBorrowingBook(null);
+    }
+  }
+
+  async function handleDelete() {
+    if (!deletingBook) return;
+    const res = await fetch(`/api/books/${deletingBook.id}`, { method: "DELETE" });
+    if (res.ok) {
+      setBooks((prev) => prev.filter((b) => b.id !== deletingBook.id));
+      setDeletingBook(null);
+    }
+  }
+
+  async function handleReturn(book: Book) {
+    const res = await fetch(`/api/books/${book.id}/return`, { method: "POST" });
+    if (res.ok) {
+      setBooks((prev) =>
+        prev.map((b) =>
+          b.id === book.id
+            ? { ...b, loanStatus: "available", borrower: null }
+            : b,
+        ),
+      );
+    }
   }
 
   // Load books on startup
@@ -71,6 +119,7 @@ function App() {
   );
 
   const totalPages = Math.ceil(filteredBooks.length / pageSize);
+  if (page > totalPages && totalPages > 0) setPage(totalPages);
   const start = (page - 1) * pageSize;
   const pageBooks = filteredBooks.slice(start, start + pageSize);
 
@@ -100,9 +149,7 @@ function App() {
           >
             ←
           </button>
-          <span>
-            {start + 1}–{Math.min(start + pageSize, filteredBooks.length)}
-          </span>
+          <span>{page} of {totalPages}</span>
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={page === totalPages}
@@ -119,7 +166,12 @@ function App() {
             Could not load books: {loadError}
           </p>
         ) : (
-          <BookTable books={pageBooks} />
+          <BookTable
+            books={pageBooks}
+            onBorrow={setBorrowingBook}
+            onReturn={handleReturn}
+            onDelete={setDeletingBook}
+          />
         )}
       </div>
 
@@ -130,6 +182,21 @@ function App() {
       >
         Add Book
       </button>
+
+      {deletingBook && (
+        <DeleteConfirmModal
+          bookTitle={deletingBook.title}
+          onConfirm={handleDelete}
+          onClose={() => setDeletingBook(null)}
+        />
+      )}
+
+      {borrowingBook && (
+        <BorrowModal
+          onBorrow={handleBorrow}
+          onClose={() => setBorrowingBook(null)}
+        />
+      )}
 
       {showAddBookModal && (
         <AddBookModal

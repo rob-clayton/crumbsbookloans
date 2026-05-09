@@ -114,6 +114,8 @@ export function AddBookModal({ onAdd, onClose }: Props) {
               name="publishedDate"
               value={form.publishedDate}
               onChange={handleField}
+              // Set max to today's date to prevent future dates and bizarre dates
+              max={new Date().toISOString().split("T")[0]}
               className="mt-1 w-full border border-gray-300 rounded px-2 py-1"
             />
           </label>

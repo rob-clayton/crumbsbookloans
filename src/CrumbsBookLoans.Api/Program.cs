@@ -20,13 +20,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Apply any pending migrations automatically on startup
-using (var scope = app.Services.CreateScope())
-    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
-
 // In development, serve OpenAPI docs and allow CORS for React dev server; in production, serve React SPA and API from same origin
 if (app.Environment.IsDevelopment())
 {
+    // Apply any pending migrations automatically on startup
+    // This is lazy and definitely NOT production
+    using (var scope = app.Services.CreateScope())
+        scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+
     app.MapOpenApi();
     // Map Scalar API reference for development - this will be available at /scalar/v1
     app.MapScalarApiReference();
