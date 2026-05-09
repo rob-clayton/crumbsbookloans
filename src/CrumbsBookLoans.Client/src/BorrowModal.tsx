@@ -24,6 +24,7 @@ export function BorrowModal({ onBorrow, onClose }: Props) {
               value={borrower}
               onChange={(e) => setBorrower(e.target.value)}
               required
+              autoFocus
               className="mt-1 w-full border border-gray-300 rounded px-2 py-1"
             />
           </label>

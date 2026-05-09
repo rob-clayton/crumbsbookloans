@@ -69,6 +69,7 @@ export function AddBookModal({ onAdd, onClose }: Props) {
               value={form.title}
               onChange={handleField}
               required
+              autoFocus
               className="mt-1 w-full border border-gray-300 rounded px-2 py-1"
             />
           </label>

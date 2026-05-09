@@ -64,7 +64,9 @@ function App() {
 
   async function handleDelete() {
     if (!deletingBook) return;
-    const res = await fetch(`/api/books/${deletingBook.id}`, { method: "DELETE" });
+    const res = await fetch(`/api/books/${deletingBook.id}`, {
+      method: "DELETE",
+    });
     if (res.ok) {
       setBooks((prev) => prev.filter((b) => b.id !== deletingBook.id));
       setDeletingBook(null);
@@ -127,6 +129,7 @@ function App() {
     <div className="flex flex-col h-screen p-6">
       <h1 className="text-2xl font-bold mb-4 text-center">Library</h1>
 
+      {/* I felt the filter was fairly small and didn't need to be extracted to its own component */}
       <div className="flex justify-between items-center mb-2">
         <label className="text-sm">
           Book Search:&nbsp;
@@ -135,6 +138,7 @@ function App() {
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
+              // I figure if you mess witth the filtering we should reset  to the first page.  Or else oddness might abound.
               setPage(1);
             }}
             className="border border-gray-300 rounded px-2 py-1"
@@ -149,7 +153,9 @@ function App() {
           >
             ←
           </button>
-          <span>{page} of {totalPages}</span>
+          <span>
+            {page} of {totalPages}
+          </span>
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={page === totalPages}

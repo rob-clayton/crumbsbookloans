@@ -45,7 +45,7 @@ The SQLite database file (`bookloans.db`) is created in the project directory on
 GET    /api/books              returns all books
 POST   /api/books              create a book
 DELETE /api/books/{id}         delete a book
-POST   /api/books/{id}/loan    mark a book as borrowed  (body: { borrower })
+POST   /api/books/{id}/loan    mark a book as borrowed
 POST   /api/books/{id}/return  mark a book as returned
 ```
 

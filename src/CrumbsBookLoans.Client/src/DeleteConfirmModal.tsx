@@ -15,6 +15,7 @@ export function DeleteConfirmModal({ bookTitle, onConfirm, onClose }: Props) {
         <div className="flex justify-end gap-2">
           <button
             onClick={onClose}
+            autoFocus
             className="px-4 py-1 rounded border border-gray-300 text-sm"
           >
             Cancel

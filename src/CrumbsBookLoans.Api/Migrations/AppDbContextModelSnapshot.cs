@@ -64,7 +64,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0879977382",
                             LoanStatus = 0,
-                            Owner = "Alice",
+                            Owner = "Rob",
                             PublishedDate = new DateOnly(1981, 9, 1),
                             Title = "Downbelow Station"
                         },
@@ -72,10 +72,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 2,
                             Author = "C.J. Cherryh",
-                            Borrower = "Eve",
+                            Borrower = "Lukey",
                             Isbn = "978-0446364638",
                             LoanStatus = 1,
-                            Owner = "Bob",
+                            Owner = "Jess",
                             PublishedDate = new DateOnly(1988, 6, 1),
                             Title = "Cyteen"
                         },
@@ -85,7 +85,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0886776107",
                             LoanStatus = 0,
-                            Owner = "Charlie",
+                            Owner = "Geordie",
                             PublishedDate = new DateOnly(1994, 1, 1),
                             Title = "Foreigner"
                         },
@@ -95,7 +95,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0879977542",
                             LoanStatus = 0,
-                            Owner = "Dave",
+                            Owner = "Damo",
                             PublishedDate = new DateOnly(1982, 6, 1),
                             Title = "The Pride of Chanur"
                         },
@@ -103,10 +103,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 5,
                             Author = "C.J. Cherryh",
-                            Borrower = "Frank",
+                            Borrower = "Liam",
                             Isbn = "978-0879977252",
                             LoanStatus = 1,
-                            Owner = "Eve",
+                            Owner = "Lukey",
                             PublishedDate = new DateOnly(1976, 1, 1),
                             Title = "Gate of Ivrel"
                         },
@@ -116,7 +116,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0879977153",
                             LoanStatus = 0,
-                            Owner = "Frank",
+                            Owner = "Liam",
                             PublishedDate = new DateOnly(1980, 1, 1),
                             Title = "Serpent's Reach"
                         },
@@ -126,7 +126,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0879977566",
                             LoanStatus = 0,
-                            Owner = "Grace",
+                            Owner = "David",
                             PublishedDate = new DateOnly(1982, 1, 1),
                             Title = "Merchanter's Luck"
                         },
@@ -134,10 +134,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 8,
                             Author = "C.J. Cherryh",
-                            Borrower = "Alice",
+                            Borrower = "Rob",
                             Isbn = "978-0446364621",
                             LoanStatus = 1,
-                            Owner = "Henry",
+                            Owner = "Bill",
                             PublishedDate = new DateOnly(1989, 1, 1),
                             Title = "Rimrunners"
                         },
@@ -147,7 +147,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0446364614",
                             LoanStatus = 0,
-                            Owner = "Isla",
+                            Owner = "Dave",
                             PublishedDate = new DateOnly(1991, 1, 1),
                             Title = "Heavy Time"
                         },
@@ -157,7 +157,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "C.J. Cherryh",
                             Isbn = "978-0879977016",
                             LoanStatus = 0,
-                            Owner = "Jack",
+                            Owner = "Hana",
                             PublishedDate = new DateOnly(1976, 1, 1),
                             Title = "Brothers of Earth"
                         },
@@ -167,7 +167,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0061447242",
                             LoanStatus = 0,
-                            Owner = "Alice",
+                            Owner = "Rob",
                             PublishedDate = new DateOnly(1986, 4, 1),
                             Title = "Howl's Moving Castle"
                         },
@@ -175,10 +175,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 12,
                             Author = "Diana Wynne Jones",
-                            Borrower = "Charlie",
+                            Borrower = "Geordie",
                             Isbn = "978-0064473897",
                             LoanStatus = 1,
-                            Owner = "Bob",
+                            Owner = "Jess",
                             PublishedDate = new DateOnly(1984, 9, 1),
                             Title = "Fire and Hemlock"
                         },
@@ -188,7 +188,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0061479946",
                             LoanStatus = 0,
-                            Owner = "Charlie",
+                            Owner = "Geordie",
                             PublishedDate = new DateOnly(1977, 5, 1),
                             Title = "Charmed Life"
                         },
@@ -198,7 +198,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0064473941",
                             LoanStatus = 0,
-                            Owner = "Dave",
+                            Owner = "Damo",
                             PublishedDate = new DateOnly(1988, 1, 1),
                             Title = "The Lives of Christopher Chant"
                         },
@@ -208,7 +208,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0064473934",
                             LoanStatus = 0,
-                            Owner = "Eve",
+                            Owner = "Lukey",
                             PublishedDate = new DateOnly(1982, 1, 1),
                             Title = "Witch Week"
                         },
@@ -216,10 +216,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 16,
                             Author = "Diana Wynne Jones",
-                            Borrower = "Grace",
+                            Borrower = "David",
                             Isbn = "978-0064473927",
                             LoanStatus = 1,
-                            Owner = "Frank",
+                            Owner = "Liam",
                             PublishedDate = new DateOnly(1980, 1, 1),
                             Title = "The Magicians of Caprona"
                         },
@@ -229,7 +229,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0061447259",
                             LoanStatus = 0,
-                            Owner = "Grace",
+                            Owner = "David",
                             PublishedDate = new DateOnly(1990, 1, 1),
                             Title = "Castle in the Air"
                         },
@@ -239,7 +239,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0061020261",
                             LoanStatus = 0,
-                            Owner = "Henry",
+                            Owner = "Bill",
                             PublishedDate = new DateOnly(1997, 1, 1),
                             Title = "Deep Secret"
                         },
@@ -249,7 +249,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Diana Wynne Jones",
                             Isbn = "978-0064407588",
                             LoanStatus = 0,
-                            Owner = "Isla",
+                            Owner = "Dave",
                             PublishedDate = new DateOnly(1987, 1, 1),
                             Title = "A Tale of Time City"
                         },
@@ -257,10 +257,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 20,
                             Author = "Diana Wynne Jones",
-                            Borrower = "Alice",
+                            Borrower = "Rob",
                             Isbn = "978-0064473880",
                             LoanStatus = 1,
-                            Owner = "Jack",
+                            Owner = "Hana",
                             PublishedDate = new DateOnly(1975, 1, 1),
                             Title = "Dogsbody"
                         },
@@ -270,7 +270,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575016972",
                             LoanStatus = 0,
-                            Owner = "Alice",
+                            Owner = "Rob",
                             PublishedDate = new DateOnly(1972, 1, 1),
                             Title = "Other Days, Other Eyes"
                         },
@@ -280,7 +280,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575018297",
                             LoanStatus = 0,
-                            Owner = "Bob",
+                            Owner = "Jess",
                             PublishedDate = new DateOnly(1975, 1, 1),
                             Title = "Orbitsville"
                         },
@@ -288,10 +288,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 23,
                             Author = "Bob Shaw",
-                            Borrower = "Dave",
+                            Borrower = "Damo",
                             Isbn = "978-0575038233",
                             LoanStatus = 1,
-                            Owner = "Charlie",
+                            Owner = "Geordie",
                             PublishedDate = new DateOnly(1986, 1, 1),
                             Title = "The Ragged Astronauts"
                         },
@@ -301,7 +301,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575016965",
                             LoanStatus = 0,
-                            Owner = "Dave",
+                            Owner = "Damo",
                             PublishedDate = new DateOnly(1967, 1, 1),
                             Title = "Night Walk"
                         },
@@ -311,7 +311,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575016958",
                             LoanStatus = 0,
-                            Owner = "Eve",
+                            Owner = "Lukey",
                             PublishedDate = new DateOnly(1968, 1, 1),
                             Title = "The Two-Timers"
                         },
@@ -319,10 +319,10 @@ namespace CrumbsBookLoans.Api.Migrations
                         {
                             Id = 26,
                             Author = "Bob Shaw",
-                            Borrower = "Henry",
+                            Borrower = "Bill",
                             Isbn = "978-0575021617",
                             LoanStatus = 1,
-                            Owner = "Frank",
+                            Owner = "Liam",
                             PublishedDate = new DateOnly(1976, 1, 1),
                             Title = "A Wreath of Stars"
                         },
@@ -332,7 +332,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575024359",
                             LoanStatus = 0,
-                            Owner = "Grace",
+                            Owner = "David",
                             PublishedDate = new DateOnly(1977, 1, 1),
                             Title = "Who Goes Here?"
                         },
@@ -342,7 +342,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575033634",
                             LoanStatus = 0,
-                            Owner = "Henry",
+                            Owner = "Bill",
                             PublishedDate = new DateOnly(1983, 1, 1),
                             Title = "Orbitsville Departure"
                         },
@@ -352,7 +352,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575042100",
                             LoanStatus = 0,
-                            Owner = "Isla",
+                            Owner = "Dave",
                             PublishedDate = new DateOnly(1988, 1, 1),
                             Title = "The Wooden Spaceships"
                         },
@@ -362,7 +362,7 @@ namespace CrumbsBookLoans.Api.Migrations
                             Author = "Bob Shaw",
                             Isbn = "978-0575025523",
                             LoanStatus = 0,
-                            Owner = "Jack",
+                            Owner = "Hana",
                             PublishedDate = new DateOnly(1978, 1, 1),
                             Title = "Vertigo"
                         });
