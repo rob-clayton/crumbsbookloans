@@ -13,6 +13,11 @@
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_URLS": "https://localhost:5001"
+      },
+      "serverReadyAction": {
+        "action": "startDebugging",
+        "name": "Client (Chrome)",
+        "pattern": "Now listening on"
       }
     },
     {
@@ -27,7 +32,7 @@
   "compounds": [
     {
       "name": "Full Stack",
-      "configurations": ["API", "Client (Chrome)"],
+      "configurations": ["API"],
       "stopAll": true
     }
   ]
