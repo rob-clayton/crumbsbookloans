@@ -1,7 +1,6 @@
 # CrumbsBookLoans API
 
-ASP.NET Core Web API for the CrumbsBookLoans book lending library. Serves both the API endpoints and the React frontend in production.
-
+ASP.NET Core Web API for the CrumbsBookLoans book lending library.
 ## Requirements
 
 - .NET 10 SDK
@@ -17,6 +16,10 @@ dotnet tool install --global dotnet-ef
 
 ```bash
 dotnet run --project src/CrumbsBookLoans.Api
+```
+
+```vscode
+Use the task to build, and the debugger tooling to run either the FE, BE or both
 ```
 
 API is available at `https://localhost:5001`. Migrations are applied automatically on startup.

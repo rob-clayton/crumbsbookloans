@@ -2,7 +2,7 @@
 
 A book lending library for 1Breadcrumb — lets employees discover who owns which books and which ones are available to borrow.
 
-Built as a prototype for the 1Breadcrumb hiring assessment. See `SPEC.md` for the original brief and `bookloans.png` for the design sketch.
+Built as a prototype for the 1Breadcrumb hiring assessment. See `SPEC.md` for the original brief and `bookloans.png` for the design sketch.  These are untouched from the requirements document provided.
 
 ## Overview
 
@@ -11,7 +11,7 @@ A React SPA backed by an ASP.NET Core Web API with a SQLite database. In develop
 ```
 React (Vite + TypeScript)
     ↓  /api/*
-ASP.NET Core Web API
+ASP.NET Core Web API (C#)
     ↓
 SQLite (EF Core)
 ```
@@ -19,7 +19,7 @@ SQLite (EF Core)
 ## Projects
 
 - [`src/CrumbsBookLoans.Api`](src/CrumbsBookLoans.Api/README.md) — ASP.NET Core Web API (.NET 10)
-- `src/CrumbsBookLoans.Client` — React frontend (Vite + TypeScript + Tailwind)
+- `src/CrumbsBookLoans.Client` — React frontend (Vite + TypeScript + Tailwind +lucide-react for a few images)
 
 ## Development
 
@@ -42,4 +42,4 @@ Or use the **Full Stack** launch configuration in VS Code (`.vscode/launch.json`
 Frontend: `http://localhost:5173`
 API: `https://localhost:5001`
 
-I love vscode ... but you might not ... use your poison of choice.
+I love vscode ... but you might not ... use your poison of choice, but I only have configuration for vscode.  Took me long enough to get that working after a few years of inactivity on my part!
