@@ -49,6 +49,23 @@ public class BooksController(AppDbContext db) : ControllerBase
         return CreatedAtAction(nameof(GetAll), new { id = book.Id }, BookResponse.FromBook(book));
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, CreateBookRequest request)
+    {
+        var book = await db.Books.FindAsync(id);
+        if (book is null) return NotFound();
+
+        book.Title = request.Title;
+        book.Author = request.Author;
+        book.Isbn = request.Isbn;
+        book.PublishedDate = request.PublishedDate;
+        book.Owner = request.Owner;
+
+        await db.SaveChangesAsync();
+
+        return Ok(BookResponse.FromBook(book));
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -61,6 +78,8 @@ public class BooksController(AppDbContext db) : ControllerBase
         return NoContent();
     }
 
+    // Loan and return endpoints are POST since they are actions that change the state of the resource, but they are not idempotent (loaning an already loaned book will fail, returning a different result than the first call), so POST is more appropriate than PUT or PATCH.
+    // I chose to use loan and return endpoints rather than a single endpoint that toggles the loan status, since these are processes and may do more than just update the loan status in the future (e.g. send notifications, etc.), and having separate endpoints makes the intent more explicit and allows for more flexibility in the future.
     [HttpPost("{id}/loan")]
     public async Task<IActionResult> Loan(int id, LoanRequest request)
     {

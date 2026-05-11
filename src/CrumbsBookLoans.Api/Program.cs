@@ -47,3 +47,6 @@ app.MapFallbackToFile("index.html");
 
 // Run the application blocking until process deaded
 app.Run();
+
+// Partial Program class to allow integration testing with WebApplicationFactory in test project
+public partial class Program { }

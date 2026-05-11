@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CrumbsBookLoans.Api.Tests/CrumbsBookLoans.Api.Tests.csproj" />
+  <Project Path="CrumbsBookLoans.Api/CrumbsBookLoans.Api.csproj" />
+</Solution>

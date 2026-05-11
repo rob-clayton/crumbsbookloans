@@ -2,6 +2,7 @@
   "folders": [
     { "name": "Root", "path": "." },
     { "name": "API", "path": "src/CrumbsBookLoans.Api" },
+    { "name": "API Tests", "path": "src/CrumbsBookLoans.Api.Tests" },
     { "name": "Client", "path": "src/CrumbsBookLoans.Client" }
   ],
   "settings": {
