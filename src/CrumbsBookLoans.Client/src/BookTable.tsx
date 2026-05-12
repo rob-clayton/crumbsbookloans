@@ -1,4 +1,4 @@
-import { BookOpen, Trash2, Undo2 } from "lucide-react";
+import { BookOpen, Trash2, Undo2, Pencil } from "lucide-react";
 import type { Book } from "./types";
 
 type Props = {
@@ -6,9 +6,16 @@ type Props = {
   onBorrow: (book: Book) => void;
   onReturn: (book: Book) => void;
   onDelete: (book: Book) => void;
+  onEdit: (book: Book) => void;
 };
 
-export function BookTable({ books, onBorrow, onReturn, onDelete }: Props) {
+export function BookTable({
+  books,
+  onBorrow,
+  onReturn,
+  onDelete,
+  onEdit,
+}: Props) {
   return (
     <table className="w-full text-left text-sm border-collapse">
       <thead>
@@ -48,6 +55,13 @@ export function BookTable({ books, onBorrow, onReturn, onDelete }: Props) {
                     <BookOpen size={16} />
                   </button>
                 )}
+                <button
+                  onClick={() => onEdit(book)}
+                  title="Edit book"
+                  className="text-gray-500 hover:text-blue-600"
+                >
+                  <Pencil size={16} />
+                </button>
                 <button
                   onClick={() => onDelete(book)}
                   title="Delete book"

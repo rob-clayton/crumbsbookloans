@@ -1,6 +1,7 @@
 import { useState } from "react";
+import type { Book } from "./types";
 
-type NewBookForm = {
+type BookForm = {
   title: string;
   author: string;
   owner: string;
@@ -9,7 +10,8 @@ type NewBookForm = {
 };
 
 type Props = {
-  onAdd: () => void;
+  editBook: Book | null;
+  onConfirm: () => void;
   onClose: () => void;
 };
 
@@ -17,17 +19,17 @@ type Props = {
 // Also, note, I'm not bothering to validate on the BE.  This is just a text field, and the API will accept any string.  In a real app, we would want to validate this on the BE as well, and not rely on the FE validation.
 const ISBN_PATTERN = /^(978|979)-\d{10}$/;
 
-export function AddBookModal({ onAdd, onClose }: Props) {
+export function AddEditBookModal({ editBook, onConfirm, onClose }: Props) {
   // So, I was having a few issues with my data validation between the FE and the BE (just fields I'd marked as required in the db model, and not in the FE form)
   // So I decided to display the error.  Initially in the console, then I thought I'd do it in a state.
   // But I'm lazy and this is a prototype so I'm just dumping the whole error object as a string.  In a real app, we would want to handle this more gracefully and display user friendly messages.
   const [error, setError] = useState<string | null>(null);
-  const [form, setForm] = useState<NewBookForm>({
-    title: "",
-    author: "",
-    owner: "",
-    isbn: "",
-    publishedDate: "",
+  const [form, setForm] = useState<BookForm>({
+    title: editBook?.title || "",
+    author: editBook?.author || "",
+    owner: editBook?.owner || "",
+    isbn: editBook?.isbn || "",
+    publishedDate: editBook?.publishedDate || "",
   });
 
   // Call the state setter function by passing in an arrow function
@@ -38,22 +40,44 @@ export function AddBookModal({ onAdd, onClose }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch("/api/books", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: form.title,
-        author: form.author,
-        owner: form.owner,
-        isbn: form.isbn || null,
-        publishedDate: form.publishedDate || null,
-      }),
-    });
-    if (res.ok) {
-      onAdd();
+    if (editBook) {
+      // Edit book
+      const res = await fetch(`/api/books/${editBook.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: form.title,
+          author: form.author,
+          owner: form.owner,
+          isbn: form.isbn || null,
+          publishedDate: form.publishedDate || null,
+        }),
+      });
+      if (res.ok) {
+        onConfirm();
+      } else {
+        const body = await res.json();
+        setError(JSON.stringify(body));
+      }
     } else {
-      const body = await res.json();
-      setError(JSON.stringify(body));
+      // Add book
+      const res = await fetch("/api/books", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: form.title,
+          author: form.author,
+          owner: form.owner,
+          isbn: form.isbn || null,
+          publishedDate: form.publishedDate || null,
+        }),
+      });
+      if (res.ok) {
+        onConfirm();
+      } else {
+        const body = await res.json();
+        setError(JSON.stringify(body));
+      }
     }
   }
 
@@ -133,7 +157,7 @@ export function AddBookModal({ onAdd, onClose }: Props) {
               type="submit"
               className="px-4 py-1 rounded bg-blue-600 text-white text-sm hover:bg-blue-700"
             >
-              Add
+              {editBook ? "Save Changes" : "Add Book"}
             </button>
           </div>
         </form>

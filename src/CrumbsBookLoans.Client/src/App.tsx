@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AddBookModal } from "./AddBookModal";
+import { AddEditBookModal } from "./AddEditBookModal";
 import { BookTable } from "./BookTable";
 import { BorrowModal } from "./BorrowModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
@@ -14,7 +14,8 @@ function App() {
   const [books, setBooks] = useState<Book[]>([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [showAddBookModal, setShowAddBookModal] = useState(false);
+  const [editBook, setEditBook] = useState<Book | null>(null);
+  const [showAddEditBookModal, setShowAddEditBookModal] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [borrowingBook, setBorrowingBook] = useState<Book | null>(null);
@@ -84,6 +85,12 @@ function App() {
         ),
       );
     }
+  }
+
+  async function handleEditBook(book: Book) {
+    // For simplicity, I'm just reusing the AddEditBookModal for editing as well.  In a real app, we might want to have a separate component for editing
+    setEditBook(book);
+    setShowAddEditBookModal(true);
   }
 
   // Load books on startup
@@ -176,6 +183,7 @@ function App() {
             books={pageBooks}
             onBorrow={setBorrowingBook}
             onReturn={handleReturn}
+            onEdit={handleEditBook}
             onDelete={setDeletingBook}
           />
         )}
@@ -183,7 +191,7 @@ function App() {
 
       {/* Floating add button — per spec, though under the table would feel more natural */}
       <button
-        onClick={() => setShowAddBookModal(true)}
+        onClick={() => setShowAddEditBookModal(true)}
         className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 text-sm shadow-lg"
       >
         Add Book
@@ -204,16 +212,21 @@ function App() {
         />
       )}
 
-      {showAddBookModal && (
-        <AddBookModal
-          onAdd={() => {
+      {showAddEditBookModal && (
+        <AddEditBookModal
+          editBook={editBook}
+          onConfirm={() => {
             // After adding a book, we want to refresh the list. In a real app, we might want to just add the new book to state instead of reloading everything.
             // I'm keeping it simple to ensure the refreshed data has the book ordered correctly in the list, and to avoid any potential issues with the new book data not matching what the API returns.
             // Double note: In a database of this size, indexing etc is actually an overhead ... but obviously not as size increases.
             loadBooks();
-            setShowAddBookModal(false);
+            setShowAddEditBookModal(false);
+            setEditBook(null);
           }}
-          onClose={() => setShowAddBookModal(false)}
+          onClose={() => {
+            setShowAddEditBookModal(false);
+            setEditBook(null);
+          }}
         />
       )}
     </div>
