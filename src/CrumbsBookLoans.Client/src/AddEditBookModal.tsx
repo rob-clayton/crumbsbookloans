@@ -84,7 +84,9 @@ export function AddEditBookModal({ editBook, onConfirm, onClose }: Props) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
       <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-        <h2 className="text-lg font-semibold mb-4">Add Book</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          {editBook ? "Edit Book" : "Add Book"}
+        </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <label className="text-sm">
             Title *
