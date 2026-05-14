@@ -26,6 +26,7 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        // Set environment to "Testing" so we can perform environment-specific configuration in the API if needed (migrations on startup when not in testing environment, etc)
         builder.UseEnvironment("Testing");
 
         _connection.Open();

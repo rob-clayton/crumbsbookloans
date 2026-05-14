@@ -62,4 +62,49 @@ public class BooksControllerTests : IClassFixture<TestWebApplicationFactory>, IA
 
         book.Id.Should().BeGreaterThan(0);
     }
+
+    // Test creating a book with a duplicate ISBN returns a conflict
+    [Fact]
+    public async Task PostBook_DuplicateIsbn_ReturnsConflict()
+    {
+        var newBook = new { title = "Test Book", author = "Test Author", owner = "Rob", isbn = "978-0879977382", publishedDate = new DateOnly(2020, 1, 1) };
+
+        // Insert book twice to create a duplicate ISBN 
+        await _client.PostAsJsonAsync("/api/books", newBook);
+        var response = await _client.PostAsJsonAsync("/api/books", newBook);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+    }
+
+    // Test updating a book with a duplicate ISBN returns a conflict
+    [Fact]
+    public async Task PutBook_DuplicateIsbn_ReturnsConflict()
+    {
+        var bookA = new { title = "Book A", author = "Author A", owner = "Rob", isbn = "978-0000000001", publishedDate = new DateOnly(2020, 1, 1) };
+        var bookB = new { title = "Book B", author = "Author B", owner = "Rob", isbn = "978-0000000002", publishedDate = new DateOnly(2020, 1, 1) };
+
+        // Insert two books with different ISBNs, then try to update book B with the same ISBN as book A
+        await _client.PostAsJsonAsync("/api/books", bookA);
+        var createB = await _client.PostAsJsonAsync("/api/books", bookB);
+        var createdB = await createB.Content.ReadFromJsonAsync<BookResponse>();
+
+        var update = new { title = "Book B", author = "Author B", owner = "Rob", isbn = bookA.isbn, publishedDate = new DateOnly(2020, 1, 1) };
+        var response = await _client.PutAsJsonAsync($"/api/books/{createdB!.Id}", update);
+
+        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+    }
+
+    // Test updating a book with the same ISBN (not changing the ISBN) returns OK
+    [Fact]
+    public async Task PutBook_SameIsbn_ReturnsOk()
+    {
+        var book = new { title = "Book A", author = "Author A", owner = "Rob", isbn = "978-0000000003", publishedDate = new DateOnly(2020, 1, 1) };
+
+        var created = await (await _client.PostAsJsonAsync("/api/books", book)).Content.ReadFromJsonAsync<BookResponse>();
+
+        var update = new { title = "Book A Updated", author = "Author A", owner = "Rob", isbn = book.isbn, publishedDate = new DateOnly(2020, 1, 1) };
+        var response = await _client.PutAsJsonAsync($"/api/books/{created!.Id}", update);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
 }

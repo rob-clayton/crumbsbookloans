@@ -1,3 +1,4 @@
+using System.Data;
 using CrumbsBookLoans.Api.Data;
 using CrumbsBookLoans.Api.Entities;
 using CrumbsBookLoans.Api.Models;
@@ -43,8 +44,19 @@ public class BooksController(AppDbContext db) : ControllerBase
             Owner = request.Owner
         };
 
+        // Okay, I know this locks the entire db, and of course you wouldn't have this in production
+        // BUT we also wouldn't use an in-memory SQLite database in production, and this is just to ensure that we don't have any race conditions for tests, etc
+        // Locks the entire db file for reading/writing until the transaction is commited
+        using var transaction = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+
+        if (request.Isbn != null && await db.Books.AnyAsync(b => b.Isbn == request.Isbn))
+            return Conflict(new { message = "A book with the same ISBN already exists." });
+
         db.Books.Add(book);
+        // Save changes
         await db.SaveChangesAsync();
+        // Commit transaction (and release lock)
+        await transaction.CommitAsync();
 
         return CreatedAtAction(nameof(GetAll), new { id = book.Id }, BookResponse.FromBook(book));
     }
@@ -61,7 +73,14 @@ public class BooksController(AppDbContext db) : ControllerBase
         book.PublishedDate = request.PublishedDate;
         book.Owner = request.Owner;
 
+        using var transaction = await db.Database.BeginTransactionAsync(IsolationLevel.Serializable);
+
+        // Same as inserting, but skip same record since it's an update, not an insert
+        if (request.Isbn != null && await db.Books.AnyAsync(b => b.Isbn == request.Isbn && b.Id != id))
+            return Conflict(new { message = "A book with the same ISBN already exists." });
+
         await db.SaveChangesAsync();
+        await transaction.CommitAsync();
 
         return Ok(BookResponse.FromBook(book));
     }
